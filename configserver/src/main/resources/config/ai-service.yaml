@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: ai-service
+
+  ai:
+    ollama:
+      chat:
+        model: gemma3:1b
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fitness_ai_db
+    username: postgres
+    password: 1234
+    default-auto-commit: false # Added to fix LOB error
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true # Added to fix LOB error
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+rabbitmq:
+  exchange:
+    name: fitness.exchange
+  queue:
+    name: activity.queue
+  routing:
+    key: activity.tracking
+
+server:
+  port: 8083
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
